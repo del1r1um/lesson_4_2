@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TicketOfferManagerTest {
     private TicketOfferRepository ticketOfferRepository = new TicketOfferRepository();
     private TicketOfferManager manager = new TicketOfferManager(ticketOfferRepository);
+    private TicketOffer sortByFastestRoute = new TicketOffer();
 
     private TicketOffer ticket1 = new TicketOffer(1, 10_000, "MOW", "ZNZ", 720);
     private TicketOffer ticket2 = new TicketOffer(2, 15_000, "ZNZ", "MOW", 740);
@@ -28,7 +29,7 @@ class TicketOfferManagerTest {
     @Test
     @DisplayName("Sort by fastest route")
     void shouldSortByFastestRoute() {
-        TicketOffer[] actual = manager.findAll("MOW", "KGS", new TicketOffer());
+        TicketOffer[] actual = manager.findAll("MOW", "KGS", sortByFastestRoute);
         TicketOffer[] expected = {ticket4, ticket3};
         assertArrayEquals(expected, actual);
     }
@@ -36,7 +37,7 @@ class TicketOfferManagerTest {
     @Test
     @DisplayName("Sort if route not exist")
     void shouldSortByNotExistRoute() {
-        TicketOffer[] actual = manager.findAll("KGS", "ZNZ", new TicketOffer());
+        TicketOffer[] actual = manager.findAll("KGS", "ZNZ", sortByFastestRoute);
         TicketOffer[] expected = {};
         assertArrayEquals(expected, actual);
     }
